@@ -17,18 +17,22 @@ fs.readFile(inFilePath, 'utf8', function (err, contents) {
 });
 
 let processLocations = (locations) => {
-    const TARGET_FILE_SIZE_KB = 500;
+    const TARGET_FILE_SIZE_KB = 50;
     const TEST_FILE_SIZE_KB = 170000;
     const TEST_FILE_SIZE_COUNT = 661000;
     const TARGET_MAX_COUNT = Math.ceil(TEST_FILE_SIZE_COUNT * TARGET_FILE_SIZE_KB / TEST_FILE_SIZE_KB);
 
     console.log(`max points for a file of ${TARGET_FILE_SIZE_KB}Kb: ${TARGET_MAX_COUNT}`);
 
-    const EVERY_NTH_ITEM = Math.ceil(TEST_FILE_SIZE_COUNT / TARGET_MAX_COUNT);
+    let everyNthItem = Math.ceil(TEST_FILE_SIZE_COUNT / TARGET_MAX_COUNT);
 
-    console.log(`sampling every ${EVERY_NTH_ITEM}th item...`);
+    if (locations.length <= TARGET_MAX_COUNT) {
+        everyNthItem = 1;
+    }
 
-    //TODO smarter approach would be to make N averages
+    console.log(`sampling every ${everyNthItem}th item...`);
+
+    //TODO a smarter approach would be to make N averages
     let i = 0;
 
     var outFile = fs.createWriteStream(outFilePath, {
@@ -39,7 +43,7 @@ let processLocations = (locations) => {
     while(i < locations.length) {
         outputLocation(outFile, locations[i]);
 
-        i += EVERY_NTH_ITEM;
+        i += everyNthItem;
         locationsWritten++;
     }
     outputTextToFile(outFile, '] }');

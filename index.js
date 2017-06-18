@@ -70,7 +70,7 @@
 
 			function getLocationDataFromJson(data) {
 				var SCALAR_E7 = 0.0000001, // Since Google Takeout stores latlngs as integers
-					locations = JSON.parse(data).locations;
+					locations = data.locations;
 
 				if (!locations || locations.length === 0) {
 					throw new ReferenceError('No location data found.');
@@ -137,21 +137,23 @@
 				reader.readAsText(file);
 			} else {
 				//use some test data:
-				let smallData = '/data/SR%20-%20Location%20History/extract%20-%20large.txt';
+				let smallData = '/data/SR%20-%20Location%20History/extract%20-%20tiny.txt';
 
 				//private data - is NOT in git!
 				let bigPrivateData = '/data/SR%20-%20Location%20History/private/reduced.json';
 
-				let activeUrl = bigPrivateData;
+				//let activeUrl = bigPrivateData;
+				let activeUrl = smallData;
 				$.get(activeUrl,
 				null,
 				function(data) {
 					file = {
 						name: 'testData1.json'
 					};
+					debugger;
 					onLoad( {
 						target: {
-							result: data
+							result: JSON.parse(data)
 						}
 					});
 				});
