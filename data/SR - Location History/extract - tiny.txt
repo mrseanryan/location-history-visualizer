@@ -1,0 +1,33 @@
+{
+  "locations" : [ {
+    "timestampMs" : "1497797534572",
+    "latitudeE7" : 520774259,
+    "longitudeE7" : 42786601,
+    "accuracy" : 20,
+    "altitude" : 45
+  }, {
+    "timestampMs" : "1497797420350",
+    "latitudeE7" : 520774600,
+    "longitudeE7" : 42785765,
+    "accuracy" : 19,
+    "altitude" : 45,
+    "activity" : [ {
+      "timestampMs" : "1497797403517",
+      "activity" : [ {
+        "type" : "UNKNOWN",
+        "confidence" : 66
+      }, {
+        "type" : "ON_FOOT",
+        "confidence" : 25
+      }, {
+        "type" : "WALKING",
+        "confidence" : 25
+      }, {
+        "type" : "STILL",
+        "confidence" : 8
+      }, {
+        "type" : "ON_BICYCLE",
+        "confidence" : 2
+      } ]
+    } ]
+  }, {

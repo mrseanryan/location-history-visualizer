@@ -85,10 +85,6 @@ h2 {
 	text-align: center;
 }
 
-#done {
-	cursor: pointer;
-}
-
 #controls {
   z-index: 99999;
   position: absolute;
