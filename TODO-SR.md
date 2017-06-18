@@ -20,3 +20,9 @@ http://leafletjs.com/reference-1.0.3.html
 - add a 'View by Country' button -> Google charts by country
 
 - re-enable the upload feature (button + drag'n'drop)
+
+- ref nice R project:
+https://shiring.github.io/maps/2016/12/30/Standortverlauf_post
+
+- improve heatmap (zoom is wrong? -> colors red only when zoomed right in...)
+https://github.com/Leaflet/Leaflet.heat
