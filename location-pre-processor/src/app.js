@@ -17,7 +17,7 @@ fs.readFile(inFilePath, 'utf8', function (err, contents) {
 });
 
 let processLocations = (locations) => {
-    const TARGET_FILE_SIZE_KB = 50;
+    const TARGET_FILE_SIZE_KB = 500;
     const TEST_FILE_SIZE_KB = 170000;
     const TEST_FILE_SIZE_COUNT = 661000;
     const TARGET_MAX_COUNT = Math.ceil(TEST_FILE_SIZE_COUNT * TARGET_FILE_SIZE_KB / TEST_FILE_SIZE_KB);
@@ -41,7 +41,7 @@ let processLocations = (locations) => {
     outputTextToFile(outFile, '{ "locations" : [ ');
     let locationsWritten = 0;
     while(i < locations.length) {
-        outputLocation(outFile, locations[i]);
+        outputLocation(outFile, locations[i], locationsWritten === 0);
 
         i += everyNthItem;
         locationsWritten++;
@@ -55,8 +55,14 @@ let outputTextToFile = (outFile, text) => {
     outFile.write(text);
 };  
 
-let outputLocation = (outFile, location) => {
-    let text = JSON.stringify(location) + ",";
+let outputLocation = (outFile, location, isFirst) => {
+    let text = '';
+    
+    if (!isFirst) {
+        text += ',';
+    }
+
+    text += JSON.stringify(location);
 
     outputTextToFile(outFile, text);
 };

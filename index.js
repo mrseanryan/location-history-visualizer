@@ -157,10 +157,13 @@
 				let smallData = '/data/SR%20-%20Location%20History/extract%20-%20large.txt';
 
 				//private data - is NOT in git!
-				let bigPrivateData = '/data/SR%20-%20Location%20History/private/reduced.json';
+				let bigPrivateDataReduced = '/data/SR%20-%20Location%20History/private/reduced.json';
 
-				let activeUrl = bigPrivateData;
-				//let activeUrl = smallData;
+				//the FULL data - works with 600k points! (thanks to leaflet.js!)
+				let veryBigPrivateData = '/data/SR%20-%20Location%20History/private/SR - PRIVATE - Location History.json'
+
+				//let activeUrl = veryBigPrivateData;
+				let activeUrl = smallData;
 				$.get(activeUrl,
 					null,
 					function (data) {
