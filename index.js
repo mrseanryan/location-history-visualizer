@@ -4,9 +4,11 @@
 		heatOptions = {
 			tileOpacity: 1,
 			heatOpacity: 1,
-			radius: 25,
-			blur: 15,
-			//gradient: { 0: 'blue', 1: 'red' }
+			minOpacity: 0.5,
+			//xxx maxZoom: 10,
+			radius: 30,
+			blur: 1,
+			//xxx gradient: { 0: 'blue', 1: 'red' }
 		};
 
 	// Start at the beginning
@@ -18,7 +20,6 @@
 		// Initialize the map
 		map = L.map('map').setView([0, 0], 2);
 
-		// L.tileLayer( 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 		L.tileLayer('http://a.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
 			attribution: 'location-history-visualizer is open source and available <a href="https://github.com/theopolisme/location-history-visualizer">on GitHub</a>. Map data &copy; <a href="https://openstreetmap.org">OpenStreetMap</a> contributors.',
 			maxZoom: 18,
@@ -124,6 +125,22 @@
 				heat._latlngs = latlngs;
 
 				heat.redraw();
+
+				setTimeout(function () {
+					// center on the data
+					let lats = latlngs.map(latLong => latLong[0]);
+
+					let longs = latlngs.map(latLong => latLong[1]);
+
+					var corner1 = L.latLng(Math.min(...lats), Math.min(...longs)),
+						corner2 = L.latLng(Math.max(...lats), Math.max(...longs)),
+						bounds = L.latLngBounds(corner1, corner2);
+
+					map.fitBounds(bounds, {
+						padding: [50, 50]
+					});
+				}, 2000);
+
 				stageThree( /* numberProcessed */ latlngs.length);
 			};
 
@@ -133,30 +150,41 @@
 				status('Something went wrong reading your JSON file. Ensure you\'re uploading a "direct-from-Google" JSON file and try again, or create an issue on GitHub if the problem persists. (error: ' + reader.error + ')');
 			};
 
-			if(file) {
+			if (file) {
 				reader.readAsText(file);
 			} else {
 				//use some test data:
-				let smallData = '/data/SR%20-%20Location%20History/extract%20-%20tiny.txt';
+				let smallData = '/data/SR%20-%20Location%20History/extract%20-%20large.txt';
 
 				//private data - is NOT in git!
 				let bigPrivateData = '/data/SR%20-%20Location%20History/private/reduced.json';
 
-				//let activeUrl = bigPrivateData;
-				let activeUrl = smallData;
+				let activeUrl = bigPrivateData;
+				//let activeUrl = smallData;
 				$.get(activeUrl,
-				null,
-				function(data) {
-					file = {
-						name: 'testData1.json'
-					};
-					debugger;
-					onLoad( {
-						target: {
-							result: JSON.parse(data)
+					null,
+					function (data) {
+						file = {
+							name: 'testData1.json'
+						};
+
+						//sometimes data is string, sometimes JSON (!)
+						if (typeof (data) === "string") {
+							data = JSON.parse(data);
 						}
+
+						onLoad({
+							target: {
+								result: data
+							}
+						});
+					})
+					.fail(function () {
+						console.error("error loading data from server!");
+					})
+					.always(function () {
+						console.log("done loading data from server");
 					});
-				});
 			}
 		}
 	}
