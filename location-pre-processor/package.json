@@ -1,0 +1,11 @@
+{
+  "name": "location-pre-processor",
+  "version": "1.0.0",
+  "description": "pre process Google location data so it is not too big!",
+  "main": "src/index.js",
+  "author": "str_ie@yahoo.co.uk",
+  "license": "MIT",
+  "dependencies": {
+    "babel-register": "^6.24.1"
+  }
+}
